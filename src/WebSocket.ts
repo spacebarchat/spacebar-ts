@@ -1,52 +1,69 @@
+import EventEmitter from "eventemitter3";
+import { readdir } from "fs";
 import WebSocket from "isomorphic-ws";
+import path from "path";
 import { Client } from "./Client";
 import {
   GatewayIdentify,
+  GatewayOpcodes,
   GatewayReceivePayload,
   GatewaySendPayload,
 } from "./interfaces/websocket";
+import OPCodeEvent from "./OPCodeEvent";
 
-export class WebSocketClient {
-  client: Client;
+export class WebSocketClient extends EventEmitter {
   ws?: WebSocket;
   ready: boolean;
   heartbeatInterval?: NodeJS.Timeout;
   timeouts: Record<string, number> = {};
-  queue: WebSocket.MessageEvent[] = [];
+  queue: Buffer[] = [];
   processing: boolean = false;
+  initialized = false;
+  seq: number = 0;
 
-  constructor(client: Client) {
-    this.client = client;
+  constructor(public readonly client: Client) {
+    super();
     this.ready = false;
+
+    this.init();
+  }
+
+  init() {
+    if (this.initialized) return;
+    readdir(path.join(__dirname, "opcodes"), (err, allFiles) => {
+      if (err) console.log(err);
+      let files = allFiles.filter((f) => f.split(".").pop() === "js");
+      if (files.length <= 0) return;
+      else
+        for (let file of files) {
+          const Clazz: { new (ws: WebSocketClient): OPCodeEvent } =
+            require(`./opcodes/${file}`).default;
+          const clazz = new Clazz(this);
+          this.on(GatewayOpcodes[clazz.opcode], clazz.execute.bind(clazz));
+        }
+    });
   }
 
   connect() {
-    return new Promise((resolve, reject) => {
-      try {
-        if (this.ws && this.ws.readyState === WebSocket.OPEN) {
-          console.warn("[WS] Already connected");
-          throw new Error("Already connected");
-        }
+    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
+      console.warn("[WS] Already connected");
+      throw new Error("Already connected");
+    }
 
-        if (!this.client.domainConfig) throw new Error("no domain config");
-        if (!this.client.token) throw new Error("no token");
+    if (!this.client.domainConfig) throw new Error("no domain config");
+    if (!this.client.token) throw new Error("no token");
 
-        this.client.emit(
-          "debug",
-          "[WS] Connecting to",
-          this.client.domainConfig.gateway
-        );
-        this.ws = new WebSocket(this.client.domainConfig.gateway);
+    this.client.emit(
+      "debug",
+      "[WS] Connecting to",
+      this.client.domainConfig.gateway
+    );
+    this.ws = new WebSocket(this.client.domainConfig.gateway);
 
-        this.ws.on("open", this.open.bind(this));
-        this.ws.on("close", this.close.bind(this));
-        this.ws.on("error", this.error.bind(this));
-        this.ws.on("message", this.message.bind(this));
-      } catch (e) {
-        console.debug("regect", e);
-        reject(e);
-      }
-    });
+    this.ws.on("open", this.open.bind(this));
+    this.ws.on("close", this.close.bind(this));
+    this.ws.on("error", this.error.bind(this));
+    this.ws.on("message", this.message.bind(this));
   }
 
   disconnect() {
@@ -86,18 +103,18 @@ export class WebSocketClient {
 
   private error(err: Error) {
     console.error("[WS] Error", err);
+    this.client.emit("error", err);
   }
 
-  private async handleMessage(msg: WebSocket.MessageEvent) {
-    const data = msg.data;
-    if (typeof data !== "string") return;
+  private async handleMessage(msg: Buffer) {
+    const data = msg.toString();
 
-    this.client.emit("debug", "[WS] Recieved message: ", data);
+    // this.client.emit("debug", "[WS] Recieved message: ", data);
     const packet = JSON.parse(data) as GatewayReceivePayload;
-    // await this.processPayload(packet);
+    this.emit(GatewayOpcodes[packet.op], packet);
   }
 
-  private async message(msg: WebSocket.MessageEvent) {
+  private async message(msg: Buffer) {
     this.queue.push(msg);
 
     if (!this.processing) {

@@ -2,13 +2,19 @@ import {
   API,
   APIErrorOrCaptchaResponse,
   LoginSchema,
+  User,
 } from "@puyodead1/fosscord-api";
 import EventEmitter from "eventemitter3";
 import defaultsDeep from "lodash.defaultsdeep";
+import { makeObservable, observable } from "mobx";
+import UserCollection from "./structures/User";
 import { WebSocketClient } from "./WebSocket";
 
 export interface ClientOptions {
   rest: {
+    url: string;
+  };
+  cdn: {
     url: string;
   };
 }
@@ -24,6 +30,9 @@ export const DEFAULT_CONFIG: ClientOptions = {
   rest: {
     url: "https://staging.fosscord.com/api",
   },
+  cdn: {
+    url: "https://cdn.staging.fosscord.com",
+  },
 };
 
 export class Client extends EventEmitter {
@@ -33,9 +42,15 @@ export class Client extends EventEmitter {
   domainConfig?: DomainConfig;
   ws: WebSocketClient;
 
+  @observable user?: User;
+  @observable users: UserCollection;
+
   constructor(options: Partial<ClientOptions> = {}) {
     super();
-    // makeObservable(this);
+
+    this.users = new UserCollection(this);
+
+    makeObservable(this);
 
     this.options = defaultsDeep(options, DEFAULT_CONFIG);
     this.api = new API({ baseURL: this.options.rest.url });

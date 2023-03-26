@@ -1,18 +1,22 @@
 import {
+  Channel,
+  ConnectedAccount,
+  Guild,
   IdentifySchema,
   Invite,
   Member,
   Message,
   PublicUser,
+  ReadState,
+  Relationship,
   Role,
   User,
+  UserGuildSettings,
+  UserSettings,
 } from "@puyodead1/fosscord-api";
+import { Nullable } from "../util/utils";
 
 // modified from discord.js, strips stuff that fosscord doesn't implement: stages, threads, stickers, voice, presence (no types)
-
-export type Nullable<T> = {
-  [P in keyof T]: T[P] | null;
-};
 
 export type PublicMemberKeys =
   | "id"
@@ -208,6 +212,77 @@ export type GatewayInvalidSessionData = boolean;
 export interface GatewayReconnect extends NonDispatchPayload {
   op: GatewayOpcodes.Reconnect;
   d: never;
+}
+
+/**
+ * https://discord.com/developers/docs/topics/gateway-events#ready
+ */
+export type GatewayReadyDispatch = DataPayload<
+  GatewayDispatchEvents.Ready,
+  GatewayReadyDispatchData
+>;
+
+export interface GatewayReadyDispatchData {
+  v: number;
+  user: PublicUser & {
+    mobile: boolean;
+    desktop: boolean;
+    email: string | undefined;
+    flags: string;
+    mfa_enabled: boolean;
+    nsfw_allowed: boolean;
+    phone: string | undefined;
+    premium: boolean;
+    premium_type: number;
+    verified: boolean;
+    bot: boolean;
+  };
+  private_channels: Channel[]; // this will be empty for bots
+  session_id: string; // resuming
+  guilds: Guild[];
+  analytics_token?: string;
+  connected_accounts?: ConnectedAccount[];
+  consents?: {
+    personalization?: {
+      consented?: boolean;
+    };
+  };
+  country_code?: string; // e.g. DE
+  friend_suggestion_count?: number;
+  geo_ordered_rtc_regions?: string[]; // ["europe","russie","india","us-east","us-central"]
+  experiments?: [number, number, number, number, number][];
+  guild_experiments?: [
+    // ? what are guild_experiments?
+    // this is the structure of it:
+    number,
+    null,
+    number,
+    [[number, { e: number; s: number }[]]],
+    [number, [[number, [number, number]]]],
+    { b: number; k: bigint[] }[]
+  ][];
+  guild_join_requests?: unknown[]; // ? what is this? this is new
+  shard?: [number, number];
+  user_settings?: UserSettings;
+  relationships?: Relationship[]; // TODO: private relationship type
+  read_state: {
+    entries: ReadState[]; // TODO
+    partial: boolean;
+    version: number;
+  };
+  user_guild_settings?: {
+    entries: UserGuildSettings[];
+    version: number;
+    partial: boolean;
+  };
+  application?: {
+    id: string;
+    flags: number;
+  };
+  merged_members?: PublicMember[][];
+  // probably all users who the user is in contact with
+  users?: PublicUser[];
+  sessions: unknown[];
 }
 
 /**
@@ -748,6 +823,7 @@ export type GatewayDispatchPayload =
   | GatewayMessageDeleteBulkDispatch
   | GatewayMessageDeleteDispatch
   | GatewayMessageUpdateDispatch
+  | GatewayReadyDispatch
   | GatewayResumedDispatch
   | GatewayTypingStartDispatch
   | GatewayUserUpdateDispatch;

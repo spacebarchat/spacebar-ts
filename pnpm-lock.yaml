@@ -2,28 +2,34 @@ lockfileVersion: 5.4
 
 specifiers:
   '@puyodead1/fosscord-api': github:Puyodead1/fosscord-api
+  '@sapphire/snowflake': ^3.4.0
   '@types/lodash.defaultsdeep': ^4.6.7
+  '@types/lodash.isequal': ^4.5.6
   '@types/node': ^18.15.10
   '@types/ws': ^8.5.4
   eventemitter3: ^5.0.0
   exponential-backoff: ^3.1.1
   isomorphic-ws: ^5.0.0
   lodash.defaultsdeep: ^4.6.1
+  lodash.isequal: ^4.5.0
   mobx: ^6.9.0
   typescript: ^5.0.2
   ws: ^8.13.0
 
 dependencies:
-  '@puyodead1/fosscord-api': github.com/Puyodead1/fosscord-api/30c16410d3d4bbb3a27ba578a41462b798fcc1a8
+  '@puyodead1/fosscord-api': github.com/Puyodead1/fosscord-api/b8c38644067d532043f102b3b0bb3d43b72a568c
+  '@sapphire/snowflake': 3.4.0
   eventemitter3: 5.0.0
   exponential-backoff: 3.1.1
   isomorphic-ws: 5.0.0_ws@8.13.0
   lodash.defaultsdeep: 4.6.1
+  lodash.isequal: 4.5.0
   mobx: 6.9.0
   ws: 8.13.0
 
 devDependencies:
   '@types/lodash.defaultsdeep': 4.6.7
+  '@types/lodash.isequal': 4.5.6
   '@types/node': 18.15.10
   '@types/ws': 8.5.4
   typescript: 5.0.2
@@ -42,8 +48,19 @@ packages:
       - debug
     dev: false
 
+  /@sapphire/snowflake/3.4.0:
+    resolution: {integrity: sha512-zZxymtVO6zeXVMPds+6d7gv/OfnCc25M1Z+7ZLB0oPmeMTPeRWVPQSS16oDJy5ZsyCOLj7M6mbZml5gWXcVRNw==}
+    engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
+    dev: false
+
   /@types/lodash.defaultsdeep/4.6.7:
     resolution: {integrity: sha512-D+AUxs64qehDMkbfFoskG0XsIOh2CHBGqYfcQcubLbZSFCGKJKS885su3a97huqBNHj+p9of9UZ/uUIP46wUGQ==}
+    dependencies:
+      '@types/lodash': 4.14.191
+    dev: true
+
+  /@types/lodash.isequal/4.5.6:
+    resolution: {integrity: sha512-Ww4UGSe3DmtvLLJm2F16hDwEQSv7U0Rr8SujLUA2wHI2D2dm8kPu6Et+/y303LfjTIwSBKXB/YTUcAKpem/XEg==}
     dependencies:
       '@types/lodash': 4.14.191
     dev: true
@@ -341,6 +358,10 @@ packages:
     resolution: {integrity: sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==}
     dev: false
 
+  /lodash.isequal/4.5.0:
+    resolution: {integrity: sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ==}
+    dev: false
+
   /micromatch/4.0.5:
     resolution: {integrity: sha512-DMy+ERcEW2q8Z2Po+WNXuw3c5YaUSFjAO5GsJqfEl7UjvtIuFKO6ZrKvcItdy98dwFI2N1tg3zNIdKaQT+aNdA==}
     engines: {node: '>=8.6'}
@@ -591,8 +612,8 @@ packages:
     dev: false
     optional: true
 
-  github.com/Puyodead1/fosscord-api/30c16410d3d4bbb3a27ba578a41462b798fcc1a8:
-    resolution: {tarball: https://codeload.github.com/Puyodead1/fosscord-api/tar.gz/30c16410d3d4bbb3a27ba578a41462b798fcc1a8}
+  github.com/Puyodead1/fosscord-api/b8c38644067d532043f102b3b0bb3d43b72a568c:
+    resolution: {tarball: https://codeload.github.com/Puyodead1/fosscord-api/tar.gz/b8c38644067d532043f102b3b0bb3d43b72a568c}
     name: '@puyodead1/fosscord-api'
     version: 0.0.1
     requiresBuild: true
