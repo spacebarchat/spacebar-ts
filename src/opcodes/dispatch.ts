@@ -20,12 +20,21 @@ export default class extends OPCodeEvent {
       case GatewayDispatchEvents.Ready:
         const { users, guilds, user, private_channels, relationships } =
           payload.d;
+
+        console.log(guilds);
+
         runInAction(() => {
           for (const user of users || []) {
             this.ws.client.users.create(user);
           }
 
-          // TODO:
+          for (const channel of private_channels || []) {
+            this.ws.client.channels.create(channel);
+          }
+
+          for (const guild of guilds || []) {
+            this.ws.client.guilds.create(guild);
+          }
         });
 
         this.ws.client.user = user as User;
