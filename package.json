@@ -1,11 +1,12 @@
 {
-  "name": "fosscord-ts",
-  "version": "0.0.1",
+  "name": "@puyodead1/fosscord-ts",
+  "version": "0.0.1-test1",
   "description": "",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "prepare": "npm run build"
   },
   "keywords": [],
   "author": "Puyodead1",
