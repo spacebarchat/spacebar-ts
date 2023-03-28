@@ -183,7 +183,6 @@ export class Guild {
     this.premium_subscription_count = data.premium_subscription_count;
     this.large = data.large ?? false;
 
-    console.log(data.channels);
     if ("properties" in data) {
       this.afk_channel_id = data.properties.afk_channel_id;
       this.afk_timeout = data.properties.afk_timeout;
