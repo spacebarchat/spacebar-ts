@@ -176,12 +176,14 @@ export class Guild {
     this.member_ids = (data.members ?? []).map((x) => x.id);
     (data.members ?? []).forEach((x) => this.client.members.create(x));
     this.role_ids = (data.roles ?? []).map((x) => x.id); // TODO: store
-    this.channel_ids = (data.channels ?? []).map((x) => x.id); // TODO: store
+    this.channel_ids = data.channels.map((x) => x.id); // TODO: store
+    data.channels.forEach((x) => this.client.channels.create(x));
     this.emoji_ids = (data.emojis ?? []).map((x) => x.id); // TODO: store
     this.sticker_ids = (data.stickers ?? []).map((x) => x.id); // TODO: store
     this.premium_subscription_count = data.premium_subscription_count;
     this.large = data.large ?? false;
 
+    console.log(data.channels);
     if ("properties" in data) {
       this.afk_channel_id = data.properties.afk_channel_id;
       this.afk_timeout = data.properties.afk_timeout;
@@ -333,7 +335,7 @@ export class Guild {
       } else {
         elements.unshift({
           id: "uncategorised",
-          channels: uncategorised,
+          channels: [...uncategorised],
         } as unknown as CategoryChannel);
       }
     }
