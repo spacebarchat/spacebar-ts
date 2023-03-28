@@ -173,7 +173,8 @@ export class Guild {
   ) {
     this.id = data.id;
     this.member_count = data.member_count;
-    this.member_ids = (data.members ?? []).map((x) => x.id); // TODO: store
+    this.member_ids = (data.members ?? []).map((x) => x.id);
+    (data.members ?? []).forEach((x) => this.client.members.create(x));
     this.role_ids = (data.roles ?? []).map((x) => x.id); // TODO: store
     this.channel_ids = (data.channels ?? []).map((x) => x.id); // TODO: store
     this.emoji_ids = (data.emojis ?? []).map((x) => x.id); // TODO: store
@@ -270,23 +271,6 @@ export class Guild {
     makeAutoObservable(this);
   }
 
-  @action
-  update(data: Partial<IGuildCustom>) {
-    const set = (key: keyof IGuildCustom) => {
-      // @ts-expect-error
-      if (typeof data[key] !== "undefined" && !isEqual(this[key], data[key])) {
-        // @ts-expect-error
-        this[key] = data[key];
-      }
-    };
-
-    const excludedKeys: (keyof IGuildCustom)[] = ["id"];
-    for (const key of Object.keys(data)) {
-      if (!excludedKeys.includes(key as keyof IGuildCustom))
-        set(key as keyof IGuildCustom);
-    }
-  }
-
   get channels() {
     return this.channel_ids
       .map((x) => this.client.channels.get(x))
@@ -381,6 +365,23 @@ export class Guild {
     return this.splash
       ? `${this.client.options.cdn.url}/splashes/${this.id}/${this.icon}.png`
       : undefined;
+  }
+
+  @action
+  update(data: Partial<IGuildCustom>) {
+    const set = (key: keyof IGuildCustom) => {
+      // @ts-expect-error
+      if (typeof data[key] !== "undefined" && !isEqual(this[key], data[key])) {
+        // @ts-expect-error
+        this[key] = data[key];
+      }
+    };
+
+    const excludedKeys: (keyof IGuildCustom)[] = ["id"];
+    for (const key of Object.keys(data)) {
+      if (!excludedKeys.includes(key as keyof IGuildCustom))
+        set(key as keyof IGuildCustom);
+    }
   }
 }
 

@@ -45,22 +45,6 @@ export class User {
     return new Date(Number(DiscordSnowflake.deconstruct(this.id).timestamp));
   }
 
-  @action
-  update(data: Partial<PublicUser>) {
-    const set = (key: keyof PublicUser) => {
-      if (typeof data[key] !== "undefined" && !isEqual(this[key], data[key])) {
-        // @ts-expect-error
-        this[key] = data[key];
-      }
-    };
-
-    const excludedKeys: (keyof PublicUser)[] = ["id"];
-    for (const key of Object.keys(data)) {
-      if (!excludedKeys.includes(key as keyof PublicUser))
-        set(key as keyof PublicUser);
-    }
-  }
-
   async getProfile() {
     return await this.client.api.get(`/users/${this.id}/`);
   }
@@ -79,6 +63,22 @@ export class User {
     return this.avatar
       ? `${this.client.options.cdn.url}/avatars/${this.id}/${this.avatar}.png`
       : this.defaultAvatarURL;
+  }
+
+  @action
+  update(data: Partial<PublicUser>) {
+    const set = (key: keyof PublicUser) => {
+      if (typeof data[key] !== "undefined" && !isEqual(this[key], data[key])) {
+        // @ts-expect-error
+        this[key] = data[key];
+      }
+    };
+
+    const excludedKeys: (keyof PublicUser)[] = ["id"];
+    for (const key of Object.keys(data)) {
+      if (!excludedKeys.includes(key as keyof PublicUser))
+        set(key as keyof PublicUser);
+    }
   }
 }
 

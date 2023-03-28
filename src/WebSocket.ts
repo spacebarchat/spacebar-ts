@@ -3,6 +3,7 @@ import { readdir } from "fs";
 import WebSocket from "isomorphic-ws";
 import path from "path";
 import { Client } from "./Client";
+import DispatchEvent from "./DispatchEvent";
 import {
   GatewayIdentify,
   GatewayOpcodes,
@@ -40,6 +41,19 @@ export class WebSocketClient extends EventEmitter {
             require(`./opcodes/${file}`).default;
           const clazz = new Clazz(this);
           this.on(GatewayOpcodes[clazz.opcode], clazz.execute.bind(clazz));
+        }
+    });
+
+    readdir(path.join(__dirname, "events"), (err, allFiles) => {
+      if (err) console.log(err);
+      let files = allFiles.filter((f) => f.split(".").pop() === "js");
+      if (files.length <= 0) return;
+      else
+        for (let file of files) {
+          const Clazz: { new (ws: WebSocketClient): DispatchEvent } =
+            require(`./events/${file}`).default;
+          const clazz = new Clazz(this);
+          this.on(clazz.event, clazz.execute.bind(clazz));
         }
     });
   }

@@ -10,7 +10,7 @@ import {
   Webhook,
 } from "@puyodead1/fosscord-api";
 import isEqual from "lodash.isequal";
-import { action, makeAutoObservable, runInAction } from "mobx";
+import { action, makeAutoObservable, observable, runInAction } from "mobx";
 import { Client } from "../Client";
 import Collection from "../util/Collection";
 
@@ -23,33 +23,33 @@ export type CategoryChannel = IChannelCustom & {
 
 export class Channel {
   id: string;
-  created_at: string;
-  name?: string;
-  icon?: string | null;
-  type: ChannelType;
-  recipients?: Recipient[];
-  last_message_id?: string;
+  @observable created_at: string;
+  @observable name?: string;
+  @observable icon?: string | null;
+  @observable type: ChannelType;
+  @observable recipients?: Recipient[];
+  @observable last_message_id?: string;
   guild_id?: string;
-  parent_id: string;
+  @observable parent_id: string;
   owner_id?: string;
-  last_pin_timestamp?: number;
-  default_auto_archive_duration?: number;
-  position?: number;
-  permission_overwrites?: ChannelPermissionOverwrite[];
-  video_quality_mode?: number;
-  bitrate?: number;
-  user_limit?: number;
-  nsfw: boolean = false;
-  rate_limit_per_user?: number;
-  topic?: string;
-  invites?: Invite[];
-  retention_policy_id?: string;
-  messages?: Message[];
-  voice_states?: VoiceState[];
-  read_states?: ReadState[];
-  webhooks?: Webhook[];
-  flags: number = 0;
-  default_thread_rate_limit_per_user: number = 0;
+  @observable last_pin_timestamp?: number;
+  @observable default_auto_archive_duration?: number;
+  @observable position?: number;
+  @observable permission_overwrites?: ChannelPermissionOverwrite[];
+  @observable video_quality_mode?: number;
+  @observable bitrate?: number;
+  @observable user_limit?: number;
+  @observable nsfw: boolean = false;
+  @observable rate_limit_per_user?: number;
+  @observable topic?: string;
+  @observable invites?: Invite[];
+  @observable retention_policy_id?: string;
+  @observable messages?: Message[];
+  @observable voice_states?: VoiceState[];
+  @observable read_states?: ReadState[];
+  @observable webhooks?: Webhook[];
+  @observable flags: number = 0;
+  @observable default_thread_rate_limit_per_user: number = 0;
 
   constructor(public readonly client: Client, data: IChannelCustom) {
     this.id = data.id;
@@ -85,22 +85,6 @@ export class Channel {
     makeAutoObservable(this);
   }
 
-  @action
-  update(data: Partial<IChannelCustom>) {
-    const set = (key: keyof IChannelCustom) => {
-      if (typeof data[key] !== "undefined" && !isEqual(this[key], data[key])) {
-        // @ts-expect-error
-        this[key] = data[key];
-      }
-    };
-
-    const excludedKeys: (keyof IChannelCustom)[] = ["id"];
-    for (const key of Object.keys(data)) {
-      if (!excludedKeys.includes(key as keyof IChannelCustom))
-        set(key as keyof IChannelCustom);
-    }
-  }
-
   async sendMessage(data: string | Partial<Message>) {
     // TODO:
   }
@@ -128,6 +112,22 @@ export class Channel {
   }
 
   // TODO: permissions
+
+  @action
+  update(data: Partial<IChannelCustom>) {
+    const set = (key: keyof IChannelCustom) => {
+      if (typeof data[key] !== "undefined" && !isEqual(this[key], data[key])) {
+        // @ts-expect-error
+        this[key] = data[key];
+      }
+    };
+
+    const excludedKeys: (keyof IChannelCustom)[] = ["id"];
+    for (const key of Object.keys(data)) {
+      if (!excludedKeys.includes(key as keyof IChannelCustom))
+        set(key as keyof IChannelCustom);
+    }
+  }
 }
 
 export default class ChannelCollection extends Collection<String, Channel> {

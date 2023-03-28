@@ -9,6 +9,7 @@ import defaultsDeep from "lodash.defaultsdeep";
 import { makeObservable, observable } from "mobx";
 import ChannelCollection from "./structures/Channel";
 import GuildCollection from "./structures/Guild";
+import MemberCollection from "./structures/Member";
 import UserCollection from "./structures/User";
 import { WebSocketClient } from "./WebSocket";
 
@@ -48,6 +49,7 @@ export class Client extends EventEmitter {
   @observable users: UserCollection;
   @observable guilds: GuildCollection;
   @observable channels: ChannelCollection;
+  @observable members: MemberCollection;
 
   constructor(options: Partial<ClientOptions> = {}) {
     super();
@@ -55,6 +57,7 @@ export class Client extends EventEmitter {
     this.users = new UserCollection(this);
     this.guilds = new GuildCollection(this);
     this.channels = new ChannelCollection(this);
+    this.members = new MemberCollection(this);
 
     makeObservable(this);
 
