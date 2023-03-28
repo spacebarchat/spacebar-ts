@@ -277,6 +277,12 @@ export class Guild {
       .filter(notEmpty);
   }
 
+  get members() {
+    return this.member_ids
+      .map((x) => this.client.members.get(x))
+      .filter(notEmpty);
+  }
+
   get createdAt() {
     return new Date(Number(DiscordSnowflake.deconstruct(this.id).timestamp));
   }
