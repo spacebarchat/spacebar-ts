@@ -12,6 +12,7 @@ import ChannelCollection from "./structures/Channel";
 import GuildCollection from "./structures/Guild";
 import MemberCollection from "./structures/Member";
 import UserCollection from "./structures/User";
+import { getAxiosErrorContent } from "./util/utils";
 import { WebSocketClient } from "./WebSocket";
 
 export interface ClientOptions {
@@ -110,18 +111,21 @@ export class Client extends EventEmitter {
           this.conenect();
           return resolve(this.token);
         })
-        .catch((e: APIErrorOrCaptchaResponse | Error) => {
-          if ("captcha_sitekey" in e) {
+        .catch((e) => {
+          const content = getAxiosErrorContent<
+            APIErrorOrCaptchaResponse | Error
+          >(e);
+
+          if ("captcha_sitekey" in content) {
             // Captcha
-            return reject(new CaptchaError(e));
+            return reject(new CaptchaError(content));
           }
 
-          if ("message" in e && "code" in e) {
-            // API Error
-            return reject(new APIError(e));
+          if (content instanceof Error) {
+            return reject(content);
           }
 
-          return reject(e);
+          reject(new APIError(content));
         });
     });
   }
