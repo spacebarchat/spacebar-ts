@@ -1,6 +1,6 @@
 import { MFAResponse, WebAuthnResponse } from "@puyodead1/fosscord-api";
 
-export default class MFAError extends Error {
+export class MFAError extends Error {
   ticket: string;
   mfa: true;
   sms: false;

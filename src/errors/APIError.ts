@@ -10,7 +10,7 @@ interface FieldError {
   };
 }
 
-export default class APIError extends Error {
+export class APIError extends Error {
   code: number;
   fieldErrors?: {
     field: string | undefined;

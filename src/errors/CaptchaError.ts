@@ -1,6 +1,6 @@
 import { CaptchaRequiredResponse } from "@puyodead1/fosscord-api";
 
-export default class CaptchaError extends Error {
+export class CaptchaError extends Error {
   captcha_key: string;
   captcha_sitekey: string;
   captcha_service: string;

@@ -7,9 +7,7 @@ import {
 import EventEmitter from "eventemitter3";
 import defaultsDeep from "lodash.defaultsdeep";
 import { makeObservable, observable } from "mobx";
-import APIError from "./errors/APIError";
-import CaptchaError from "./errors/CaptchaError";
-import MFAError from "./errors/MFAError";
+import { APIError, CaptchaError, MFAError } from "./errors";
 import ChannelCollection from "./structures/Channel";
 import GuildCollection from "./structures/Guild";
 import MemberCollection from "./structures/Member";
