@@ -1,7 +1,7 @@
 import { APIErrorResponse } from "@puyodead1/fosscord-api";
-import { messageFromFieldError } from "../util/utils";
+import { convertFieldErrors, IAPIError } from "../util/utils";
 
-interface FieldError {
+export interface FieldError {
   [key: string]: {
     _errors: {
       message: string;
@@ -12,21 +12,16 @@ interface FieldError {
 
 export class APIError extends Error {
   code: number;
-  fieldErrors?: {
+  fieldErrors: {
     field: string | undefined;
     error: string;
-  };
+  }[];
 
   constructor(data: APIErrorResponse) {
     super();
     this.name = "APIError";
     this.code = data.code;
     this.message = data.message;
-
-    if (data.errors) {
-      // FIXME: fix in types
-      const fieldError = messageFromFieldError(data.errors as FieldError);
-      if (fieldError) this.fieldErrors = fieldError;
-    }
+    this.fieldErrors = convertFieldErrors(data as IAPIError);
   }
 }
