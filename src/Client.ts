@@ -7,6 +7,9 @@ import {
 import EventEmitter from "eventemitter3";
 import defaultsDeep from "lodash.defaultsdeep";
 import { makeObservable, observable } from "mobx";
+import APIError from "./errors/APIError";
+import CaptchaError from "./errors/CaptchaError";
+import MFAError from "./errors/MFAError";
 import ChannelCollection from "./structures/Channel";
 import GuildCollection from "./structures/Guild";
 import MemberCollection from "./structures/Member";
@@ -75,13 +78,13 @@ export class Client extends EventEmitter {
     });
   }
 
-  private async getConfig(): Promise<void> {
+  private async getConfig(): Promise<DomainConfig> {
     return new Promise((resolve, reject) => {
       this.api
         .get("/policies/instance/domains/")
         .then((res) => {
           this.domainConfig = res;
-          resolve();
+          resolve(res);
         })
         .catch(reject);
     });
@@ -94,37 +97,33 @@ export class Client extends EventEmitter {
     this.ws.connect();
   }
 
-  async login(data: LoginSchema): Promise<void> {
+  async login(data: LoginSchema): Promise<string> {
     return new Promise(async (resolve, reject) => {
       await this.getConfig().catch(reject);
       this.api
         .post("/auth/login/", data)
         .then((res) => {
           if ("mfa" in res) {
-            // OTP MFA
-            return reject("MFA Not implemented");
-          }
-          if ("webauthn" in res) {
-            // WebAuthn MFA
-            return reject("MFA Not implemented");
+            // MFA
+            return reject(new MFAError(res));
           }
           // Success
           this.token = res.token;
           this.conenect();
-          resolve();
+          return resolve(this.token);
         })
         .catch((e: APIErrorOrCaptchaResponse | Error) => {
           if ("captcha_sitekey" in e) {
             // Captcha
-            return reject("Captcha Not implemented");
+            return reject(new CaptchaError(e));
           }
 
-          if ("message" in e) {
+          if ("message" in e && "code" in e) {
             // API Error
-            return reject(e.message);
+            return reject(new APIError(e));
           }
 
-          reject(e);
+          return reject(e);
         });
     });
   }

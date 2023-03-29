@@ -17,7 +17,7 @@ specifiers:
   ws: ^8.13.0
 
 dependencies:
-  '@puyodead1/fosscord-api': github.com/Puyodead1/fosscord-api/b8c38644067d532043f102b3b0bb3d43b72a568c
+  '@puyodead1/fosscord-api': github.com/Puyodead1/fosscord-api/a1d61057f6597a4c131dd278c4afed3610be7aee
   '@sapphire/snowflake': 3.4.0
   eventemitter3: 5.0.0
   exponential-backoff: 3.1.1
@@ -612,8 +612,8 @@ packages:
     dev: false
     optional: true
 
-  github.com/Puyodead1/fosscord-api/b8c38644067d532043f102b3b0bb3d43b72a568c:
-    resolution: {tarball: https://codeload.github.com/Puyodead1/fosscord-api/tar.gz/b8c38644067d532043f102b3b0bb3d43b72a568c}
+  github.com/Puyodead1/fosscord-api/a1d61057f6597a4c131dd278c4afed3610be7aee:
+    resolution: {tarball: https://codeload.github.com/Puyodead1/fosscord-api/tar.gz/a1d61057f6597a4c131dd278c4afed3610be7aee}
     name: '@puyodead1/fosscord-api'
     version: 0.0.1
     requiresBuild: true
