@@ -135,7 +135,7 @@ export class Client extends EventEmitter {
 
   async loginWithToken(token: string) {
     await this.getConfig();
-    this.setAuth(token);
+    this.token = token;
     this.conenect();
   }
 }
