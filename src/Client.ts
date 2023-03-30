@@ -6,7 +6,7 @@ import {
 } from "@puyodead1/fosscord-api";
 import EventEmitter from "eventemitter3";
 import defaultsDeep from "lodash.defaultsdeep";
-import { makeObservable, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 import { APIError, CaptchaError, MFAError } from "./errors";
 import ChannelCollection from "./structures/Channel";
 import GuildCollection from "./structures/Guild";
@@ -96,6 +96,7 @@ export class Client extends EventEmitter {
     this.ws.connect();
   }
 
+  @action
   async login(data: LoginSchema): Promise<string> {
     return new Promise(async (resolve, reject) => {
       await this.getConfig().catch(reject);
@@ -115,7 +116,6 @@ export class Client extends EventEmitter {
           const content = getAxiosErrorContent<
             APIErrorOrCaptchaResponse | Error
           >(e);
-          console.log(e);
 
           if ("captcha_sitekey" in content) {
             // Captcha
@@ -131,6 +131,7 @@ export class Client extends EventEmitter {
     });
   }
 
+  @action
   async loginWithToken(token: string) {
     await this.getConfig();
     this.token = token;
