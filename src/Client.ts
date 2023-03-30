@@ -115,6 +115,7 @@ export class Client extends EventEmitter {
           const content = getAxiosErrorContent<
             APIErrorOrCaptchaResponse | Error
           >(e);
+          console.log(e);
 
           if ("captcha_sitekey" in content) {
             // Captcha

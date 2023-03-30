@@ -55,10 +55,14 @@ export class WebSocketClient extends EventEmitter {
     );
     this.ws = new WebSocket(this.client.domainConfig.gateway);
 
-    this.ws.on("open", this.open.bind(this));
-    this.ws.on("close", this.close.bind(this));
-    this.ws.on("error", this.error.bind(this));
-    this.ws.on("message", this.message.bind(this));
+    // this.ws.on("open", this.open.bind(this));
+    // this.ws.on("close", this.close.bind(this));
+    // this.ws.on("error", this.error.bind(this));
+    // this.ws.on("message", this.message.bind(this));
+    this.ws.onopen = this.open.bind(this);
+    this.ws.onclose = this.close.bind(this);
+    this.ws.onerror = this.error.bind(this);
+    this.ws.onmessage = this.message.bind(this);
   }
 
   disconnect() {
@@ -79,7 +83,8 @@ export class WebSocketClient extends EventEmitter {
     this.client.emit("debug", "[WS] Open");
   }
 
-  private close(code: number, reason: Buffer) {
+  private close(event: WebSocket.CloseEvent) {
+    const { code, reason } = event;
     this.client.emit("debug", "[WS] Close", code, reason.toString());
     this.ready = false;
 
@@ -95,9 +100,10 @@ export class WebSocketClient extends EventEmitter {
     // });
   }
 
-  private error(err: Error) {
-    console.error("[WS] Error", err);
-    this.client.emit("error", err);
+  private error(event: WebSocket.ErrorEvent) {
+    const { error } = event;
+    console.error("[WS] Error", error);
+    this.client.emit("error", error);
   }
 
   private async handleMessage(msg: Buffer) {
@@ -147,7 +153,8 @@ export class WebSocketClient extends EventEmitter {
     }
   }
 
-  private async message(msg: Buffer) {
+  private async message(event: WebSocket.MessageEvent) {
+    const msg = event.data as Buffer;
     this.queue.push(msg);
 
     if (!this.processing) {
