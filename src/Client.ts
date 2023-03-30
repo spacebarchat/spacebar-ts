@@ -41,7 +41,7 @@ export const DEFAULT_CONFIG: ClientOptions = {
 };
 
 export class Client extends EventEmitter {
-  private token?: string | null;
+  token?: string | null;
   api: API;
   options: ClientOptions;
   domainConfig?: DomainConfig;
