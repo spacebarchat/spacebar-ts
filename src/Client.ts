@@ -6,7 +6,7 @@ import {
 } from "@puyodead1/fosscord-api";
 import EventEmitter from "eventemitter3";
 import defaultsDeep from "lodash.defaultsdeep";
-import { makeObservable, observable, runInAction } from "mobx";
+import { makeObservable, observable } from "mobx";
 import { APIError, CaptchaError, MFAError } from "./errors";
 import ChannelCollection from "./structures/Channel";
 import GuildCollection from "./structures/Guild";
@@ -33,21 +33,20 @@ export interface DomainConfig {
 
 export const DEFAULT_CONFIG: ClientOptions = {
   rest: {
-    url: "https://staging.fosscord.com/api",
+    url: "https://api.staging.spacebar.chat",
   },
   cdn: {
-    url: "https://cdn.staging.fosscord.com",
+    url: "https://cdn.staging.spacebar.chat",
   },
 };
 
 export class Client extends EventEmitter {
-  token?: string | null;
+  @observable token?: string | null;
   api: API;
   options: ClientOptions;
   domainConfig?: DomainConfig;
   ws: WebSocketClient;
 
-  @observable isAuthenticated = false;
   @observable user?: User;
   @observable users: UserCollection;
   @observable guilds: GuildCollection;
@@ -76,7 +75,6 @@ export class Client extends EventEmitter {
         token,
       },
     });
-    runInAction(() => (this.isAuthenticated = true));
   }
 
   private async getConfig(): Promise<DomainConfig> {
