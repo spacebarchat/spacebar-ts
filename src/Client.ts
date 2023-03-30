@@ -6,7 +6,7 @@ import {
 } from "@puyodead1/fosscord-api";
 import EventEmitter from "eventemitter3";
 import defaultsDeep from "lodash.defaultsdeep";
-import { makeObservable, observable } from "mobx";
+import { makeObservable, observable, runInAction } from "mobx";
 import { APIError, CaptchaError, MFAError } from "./errors";
 import ChannelCollection from "./structures/Channel";
 import GuildCollection from "./structures/Guild";
@@ -41,12 +41,13 @@ export const DEFAULT_CONFIG: ClientOptions = {
 };
 
 export class Client extends EventEmitter {
+  private token?: string | null;
   api: API;
   options: ClientOptions;
-  token?: string | null;
   domainConfig?: DomainConfig;
   ws: WebSocketClient;
 
+  @observable isAuthenticated = false;
   @observable user?: User;
   @observable users: UserCollection;
   @observable guilds: GuildCollection;
@@ -75,6 +76,7 @@ export class Client extends EventEmitter {
         token,
       },
     });
+    runInAction(() => (this.isAuthenticated = true));
   }
 
   private async getConfig(): Promise<DomainConfig> {
@@ -133,7 +135,7 @@ export class Client extends EventEmitter {
 
   async loginWithToken(token: string) {
     await this.getConfig();
-    this.token = token;
+    this.setAuth(token);
     this.conenect();
   }
 }
