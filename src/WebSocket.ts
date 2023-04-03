@@ -55,10 +55,6 @@ export class WebSocketClient extends EventEmitter {
     );
     this.ws = new WebSocket(this.client.domainConfig.gateway);
 
-    // this.ws.on("open", this.open.bind(this));
-    // this.ws.on("close", this.close.bind(this));
-    // this.ws.on("error", this.error.bind(this));
-    // this.ws.on("message", this.message.bind(this));
     this.ws.onopen = this.open.bind(this);
     this.ws.onclose = this.close.bind(this);
     this.ws.onerror = this.error.bind(this);
@@ -129,6 +125,10 @@ export class WebSocketClient extends EventEmitter {
         this.sendIdentify();
 
         const initialTimeout = this.heartbeatInterval * Math.random();
+        this.client.emit(
+          "debug",
+          `Waiting ${initialTimeout}ms to send initial heartbeat`
+        );
         setTimeout(() => {
           // send the initial heartbeat after heartbeat_interval * jitter
           this.sendHeartbeat();
