@@ -125,13 +125,10 @@ export class WebSocketClient extends EventEmitter {
         this.sendIdentify();
 
         const initialTimeout = this.heartbeatInterval * Math.random();
-        this.client.emit(
-          "debug",
-          `Waiting ${initialTimeout}ms to send initial heartbeat`
-        );
+
         setTimeout(() => {
           // send the initial heartbeat after heartbeat_interval * jitter
-          this.sendHeartbeat();
+          this.sendHeartbeat(true);
 
           // start the heartbeater every heartbeat_interval
           this.startHeartbeater();
@@ -193,8 +190,8 @@ export class WebSocketClient extends EventEmitter {
     clearInterval(this.heartbeater);
   }
 
-  private sendHeartbeat() {
-    if (!this.heartbeatAcked) {
+  private sendHeartbeat(isInitial = false) {
+    if (!this.heartbeatAcked && !isInitial) {
       this.client.emit("debug", "[WS] Heartbeat not acked, reconnecting");
       // TODO: proper cleanup?
       this.disconnect();
