@@ -2,18 +2,19 @@ import {
   API,
   APIErrorOrCaptchaResponse,
   LoginSchema,
+  RegisterSchema,
   User,
 } from "@puyodead1/fosscord-api";
 import EventEmitter from "eventemitter3";
 import defaultsDeep from "lodash.defaultsdeep";
 import { action, makeObservable, observable } from "mobx";
+import { WebSocketClient } from "./WebSocket";
 import { APIError, CaptchaError, MFAError } from "./errors";
 import ChannelCollection from "./structures/Channel";
 import GuildCollection from "./structures/Guild";
 import MemberCollection from "./structures/Member";
 import UserCollection from "./structures/User";
 import { getAxiosErrorContent } from "./util/utils";
-import { WebSocketClient } from "./WebSocket";
 
 export interface ClientOptions {
   rest: {
@@ -47,7 +48,7 @@ export class Client extends EventEmitter {
   domainConfig?: DomainConfig;
   ws: WebSocketClient;
 
-  @observable user?: User;
+  @observable user: User | null = null;
   @observable users: UserCollection;
   @observable guilds: GuildCollection;
   @observable channels: ChannelCollection;
@@ -97,7 +98,7 @@ export class Client extends EventEmitter {
   }
 
   @action
-  async login(data: LoginSchema): Promise<string> {
+  login(data: LoginSchema): Promise<string> {
     return new Promise(async (resolve, reject) => {
       await this.getConfig().catch(reject);
       this.api
@@ -136,5 +137,55 @@ export class Client extends EventEmitter {
     await this.getConfig();
     this.token = token;
     this.conenect();
+  }
+
+  async logout(skipRequest = false) {
+    this.user = null;
+    this.emit("logout");
+    if (!skipRequest) {
+      await this.api.post("/auth/logout/");
+    }
+
+    this.reset();
+  }
+
+  reset() {
+    this.user = null;
+    this.ws.disconnect();
+    delete this.token;
+
+    this.users = new UserCollection(this);
+    this.guilds = new GuildCollection(this);
+    this.channels = new ChannelCollection(this);
+    this.members = new MemberCollection(this);
+  }
+
+  @action
+  register(data: RegisterSchema): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.api
+        .post("/auth/register/", data)
+        .then((res) => {
+          this.token = res.token;
+          this.conenect();
+          resolve(this.token);
+        })
+        .catch((e) => {
+          const content = getAxiosErrorContent<
+            APIErrorOrCaptchaResponse | Error
+          >(e);
+
+          if ("captcha_sitekey" in content) {
+            // Captcha
+            return reject(new CaptchaError(content));
+          }
+
+          if (content instanceof Error) {
+            return reject(content);
+          }
+
+          reject(new APIError(content));
+        });
+    });
   }
 }
