@@ -34,10 +34,10 @@ export interface DomainConfig {
 
 export const DEFAULT_CONFIG: ClientOptions = {
   rest: {
-    url: "https://api.staging.spacebar.chat",
+    url: "https://api.old.server.spacebar.chat/api",
   },
   cdn: {
-    url: "https://cdn.staging.spacebar.chat",
+    url: "https://cdn.old.server.spacebar.chat",
   },
 };
 
