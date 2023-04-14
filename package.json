@@ -5,9 +5,9 @@
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
 	"scripts": {
-		"build": "tsc",
+		"build": "npm run clean && tsc",
 		"clean": "rimraf dist",
-		"prepublish": "npm run clean && npm run build"
+		"prepublish": "npm run build"
 	},
 	"keywords": [],
 	"author": "Puyodead1",
