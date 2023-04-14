@@ -1,9 +1,6 @@
 lockfileVersion: '6.0'
 
 dependencies:
-  '@puyodead1/spacebar-api':
-    specifier: ^0.0.2
-    version: 0.0.2
   '@sapphire/snowflake':
     specifier: ^3.4.0
     version: 3.4.0
@@ -25,6 +22,9 @@ dependencies:
   mobx:
     specifier: ^6.9.0
     version: 6.9.0
+  spacebar-types:
+    specifier: github:spacebarchat/spacebar-types
+    version: github.com/spacebarchat/spacebar-types/fa8e9435765131a4d305301259dc401d94328c76
   ws:
     specifier: ^8.13.0
     version: 8.13.0
@@ -149,18 +149,6 @@ packages:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
     dev: true
-
-  /@puyodead1/spacebar-api@0.0.2:
-    resolution: {integrity: sha512-v6znE2sUl5iDMQjAbAgfcD1ii0lypdc2vdb7F1nTbBpbZvThMKqq8WPaoJ+E2D4Uc26m2P3eMJzzlo9udKVAww==}
-    requiresBuild: true
-    dependencies:
-      '@insertish/oapi': 0.1.18
-      axios: 1.3.5
-      lodash.defaultsdeep: 4.6.1
-      patch-package: 6.5.1
-    transitivePeerDependencies:
-      - debug
-    dev: false
 
   /@sapphire/snowflake@3.4.0:
     resolution: {integrity: sha512-zZxymtVO6zeXVMPds+6d7gv/OfnCc25M1Z+7ZLB0oPmeMTPeRWVPQSS16oDJy5ZsyCOLj7M6mbZml5gWXcVRNw==}
@@ -419,7 +407,6 @@ packages:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
     dependencies:
       balanced-match: 1.0.2
-    dev: true
 
   /braces@3.0.2:
     resolution: {integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==}
@@ -768,7 +755,6 @@ packages:
       minimatch: 9.0.0
       minipass: 5.0.0
       path-scurry: 1.6.4
-    dev: true
 
   /glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
@@ -969,7 +955,6 @@ packages:
   /lru-cache@9.0.2:
     resolution: {integrity: sha512-7zYMKApzQ9qQE13xQUzbXVY3p2C5lh+9V+bs8M9fRf1TF59id+8jkljRWtIPfBfNP4yQAol5cqh/e8clxatdXw==}
     engines: {node: 14 || >=16.14}
-    dev: true
 
   /merge2@1.4.1:
     resolution: {integrity: sha512-8q7VEgMJW4J8tcfVPy8g09NcQwZdbwFEqhe/WZkoIzjn/3TGDwtOCYtXGxA3O8tPzpczCCDgv+P2P5y00ZJOOg==}
@@ -1012,7 +997,6 @@ packages:
     engines: {node: '>=16 || 14 >=14.17'}
     dependencies:
       brace-expansion: 2.0.1
-    dev: true
 
   /minimist@1.2.8:
     resolution: {integrity: sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==}
@@ -1021,7 +1005,6 @@ packages:
   /minipass@5.0.0:
     resolution: {integrity: sha512-3FnjYuehv9k6ovOEbyOswadCDPX1piCfhV8ncmYtHOjuPwylVWsghTLo7rabjC3Rx5xD4HDx8Wm1xnMF7S5qFQ==}
     engines: {node: '>=8'}
-    dev: true
 
   /mobx@6.9.0:
     resolution: {integrity: sha512-HdKewQEREEJgsWnErClfbFoVebze6rGazxFLU/XUyrII8dORfVszN1V0BMRnQSzcgsNNtkX8DHj3nC6cdWE9YQ==}
@@ -1155,7 +1138,6 @@ packages:
     dependencies:
       lru-cache: 9.0.2
       minipass: 5.0.0
-    dev: true
 
   /path-type@4.0.0:
     resolution: {integrity: sha512-gDKb8aZMDeD/tZWs9P6+q0J9Mwkdl6xMV8TjnGP3qJVJ06bdMgkbBlLU8IdfOsIsFz2BW1rNVT3XuNEl8zPAvw==}
@@ -1221,7 +1203,6 @@ packages:
     hasBin: true
     dependencies:
       glob: 10.0.0
-    dev: true
 
   /run-parallel@1.2.0:
     resolution: {integrity: sha512-5l4VyZR86LZ/lDxZTR6jqL8AFE2S0IFLMP26AbjsLVADxHdhB/c0GUsH+y39UfCi3dzz8OlQuPmnaJOMoDHQBA==}
@@ -1437,3 +1418,18 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  github.com/spacebarchat/spacebar-types/fa8e9435765131a4d305301259dc401d94328c76:
+    resolution: {tarball: https://codeload.github.com/spacebarchat/spacebar-types/tar.gz/fa8e9435765131a4d305301259dc401d94328c76}
+    name: spacebar-types
+    version: 0.0.2
+    requiresBuild: true
+    dependencies:
+      '@insertish/oapi': 0.1.18
+      axios: 1.3.5
+      lodash.defaultsdeep: 4.6.1
+      patch-package: 6.5.1
+      rimraf: 5.0.0
+    transitivePeerDependencies:
+      - debug
+    dev: false

@@ -8,7 +8,7 @@ import {
 	Recipient,
 	VoiceState,
 	Webhook,
-} from "@puyodead1/spacebar-api";
+} from "spacebar-types";
 import isEqual from "lodash.isequal";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
 import { Client } from "../Client";

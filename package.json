@@ -33,7 +33,6 @@
 		"typescript": "^5.0.2"
 	},
 	"dependencies": {
-		"@puyodead1/spacebar-api": "^0.0.2",
 		"@sapphire/snowflake": "^3.4.0",
 		"eventemitter3": "^5.0.0",
 		"exponential-backoff": "^3.1.1",
@@ -41,6 +40,7 @@
 		"lodash.defaultsdeep": "^4.6.1",
 		"lodash.isequal": "^4.5.0",
 		"mobx": "^6.9.0",
+		"spacebar-types": "github:spacebarchat/spacebar-types",
 		"ws": "^8.13.0"
 	}
 }

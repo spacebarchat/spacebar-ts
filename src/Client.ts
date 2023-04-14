@@ -4,7 +4,7 @@ import {
 	LoginSchema,
 	RegisterSchema,
 	User,
-} from "@puyodead1/spacebar-api";
+} from "spacebar-types";
 import EventEmitter from "eventemitter3";
 import defaultsDeep from "lodash.defaultsdeep";
 import { action, makeObservable, observable } from "mobx";

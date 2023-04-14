@@ -1,4 +1,4 @@
-import { PublicUser } from "@puyodead1/spacebar-api";
+import { PublicUser } from "spacebar-types";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import isEqual from "lodash.isequal";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";

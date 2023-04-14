@@ -10,7 +10,7 @@ import {
 	Sticker,
 	VoiceState,
 	Webhook,
-} from "@puyodead1/spacebar-api";
+} from "spacebar-types";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import isEqual from "lodash.isequal";
 import {
