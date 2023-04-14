@@ -18,11 +18,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: pnpm/action-setup@v2
+      with:
+        version: 7
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm i --only=dev
-    - run: npx eslint .
-    - run: npx prettier --check .
+        cache: 'pnpm'
+    - run: pnpm i --only=dev
+    - run: pnpm eslint .
+    - run: pnpm prettier --check .
