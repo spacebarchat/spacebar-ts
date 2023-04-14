@@ -6,7 +6,8 @@
 	"typings": "dist/index.d.ts",
 	"scripts": {
 		"build": "tsc",
-		"prepublish": "npm run build"
+		"clean": "rimraf dist",
+		"prepublish": "npm run clean && npm run build"
 	},
 	"keywords": [],
 	"author": "Puyodead1",
@@ -16,6 +17,7 @@
 		"@types/lodash.isequal": "^4.5.6",
 		"@types/node": "^18.15.10",
 		"@types/ws": "^8.5.4",
+		"rimraf": "^5.0.0",
 		"typescript": "^5.0.2"
 	},
 	"dependencies": {
