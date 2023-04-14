@@ -1,31 +1,32 @@
 {
-  "name": "@puyodead1/spacebar-ts",
-  "version": "0.0.2",
-  "description": "",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsc"
-  },
-  "keywords": [],
-  "author": "Puyodead1",
-  "license": "MIT",
-  "devDependencies": {
-    "@types/lodash.defaultsdeep": "^4.6.7",
-    "@types/lodash.isequal": "^4.5.6",
-    "@types/node": "^18.15.10",
-    "@types/ws": "^8.5.4",
-    "typescript": "^5.0.2"
-  },
-  "dependencies": {
-    "@puyodead1/spacebar-api": "^0.0.2",
-    "@sapphire/snowflake": "^3.4.0",
-    "eventemitter3": "^5.0.0",
-    "exponential-backoff": "^3.1.1",
-    "isomorphic-ws": "^5.0.0",
-    "lodash.defaultsdeep": "^4.6.1",
-    "lodash.isequal": "^4.5.0",
-    "mobx": "^6.9.0",
-    "ws": "^8.13.0"
-  }
+	"name": "@puyodead1/spacebar-ts",
+	"version": "0.0.2",
+	"description": "",
+	"main": "dist/index.js",
+	"typings": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsc",
+		"prepublish": "npm run build"
+	},
+	"keywords": [],
+	"author": "Puyodead1",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/lodash.defaultsdeep": "^4.6.7",
+		"@types/lodash.isequal": "^4.5.6",
+		"@types/node": "^18.15.10",
+		"@types/ws": "^8.5.4",
+		"typescript": "^5.0.2"
+	},
+	"dependencies": {
+		"@puyodead1/spacebar-api": "^0.0.2",
+		"@sapphire/snowflake": "^3.4.0",
+		"eventemitter3": "^5.0.0",
+		"exponential-backoff": "^3.1.1",
+		"isomorphic-ws": "^5.0.0",
+		"lodash.defaultsdeep": "^4.6.1",
+		"lodash.isequal": "^4.5.0",
+		"mobx": "^6.9.0",
+		"ws": "^8.13.0"
+	}
 }
