@@ -1,4 +1,4 @@
-export * as API from "@puyodead1/fosscord-api";
+export * as API from "@puyodead1/spacebar-api";
 export * from "./Client";
 export * from "./errors";
-export * from "./interfaces/websocket";
+export * from "./interfaces";

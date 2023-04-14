@@ -1,4 +1,4 @@
-import { User } from "@puyodead1/fosscord-api";
+import { User } from "@puyodead1/spacebar-api";
 import EventEmitter from "eventemitter3";
 import WebSocket from "isomorphic-ws";
 import { runInAction } from "mobx";

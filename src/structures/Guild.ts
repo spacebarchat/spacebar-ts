@@ -10,7 +10,7 @@ import {
   Sticker,
   VoiceState,
   Webhook,
-} from "@puyodead1/fosscord-api";
+} from "@puyodead1/spacebar-api";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import isEqual from "lodash.isequal";
 import {
@@ -21,6 +21,14 @@ import {
   runInAction,
 } from "mobx";
 import { Client } from "../Client";
+import {
+  GuildFeature,
+  GuildMFALevel,
+  GuildNSFWLevel,
+  GuildPremiumTier,
+  GuildSystemChannelFlags,
+  GuildVerificationLevel,
+} from "../interfaces/guild";
 import Collection from "../util/Collection";
 import { notEmpty } from "../util/utils";
 import { CategoryChannel } from "./Channel";
@@ -49,27 +57,27 @@ export interface StupidFuckingGuildFromGateway {
     icon?: string;
     splash?: string;
     banner?: string;
-    features: string[];
+    features: GuildFeature[];
     preferred_locale?: string;
     owner_id?: string;
     application_id?: string;
     afk_channel_id?: string;
     afk_timeout: number | undefined;
     system_channel_id?: string;
-    verification_level: number | undefined;
+    verification_level: GuildVerificationLevel;
     explicit_content_filter: number | undefined;
     default_message_notifications: number | undefined;
     mfa_level: number | undefined;
     vanity_url_code?: string;
-    premium_tier: number | undefined;
+    premium_tier: GuildPremiumTier;
     premium_progress_bar_enabled: boolean;
-    system_channel_flags: number | undefined;
+    system_channel_flags: GuildSystemChannelFlags;
     discovery_splash?: string;
     rules_channel_id?: string;
     public_updates_channel_id?: string;
     max_video_channel_users: number | undefined;
     max_members: number | undefined;
-    nsfw_level: number | undefined;
+    nsfw_level: GuildNSFWLevel;
     hub_type?: unknown | null; // ????
   };
   roles: Role[];
@@ -91,7 +99,7 @@ export type IGuildCustom = Omit<
   | "template"
 >;
 
-// FIXME: this should be in fosscord-api
+// TODO: shouldn't this be in spacebar-api???
 export enum ChannelType {
   GUILD_TEXT = 0, // a text channel within a guild
   DM = 1, // a direct message between users
@@ -126,7 +134,7 @@ export class Guild {
   @observable description?: string;
   @observable discovery_splash?: string;
   @observable explicit_content_filter?: number;
-  @observable features: string[];
+  @observable features: GuildFeature[];
   @observable primary_category_id?: string;
   @observable icon?: string;
   @observable large: boolean = false;
@@ -144,24 +152,24 @@ export class Guild {
   @observable invites?: Invite[];
   @observable voice_states?: VoiceState[];
   @observable webhooks?: Webhook[];
-  @observable mfa_level?: number;
+  @observable mfa_level?: GuildMFALevel;
   @observable name: string;
   @observable owner_id?: string;
   @observable preferred_locale?: string;
   @observable premium_subscription_count?: number;
-  @observable premium_tier?: number;
+  @observable premium_tier?: GuildPremiumTier;
   @observable public_updates_channel_id?: string;
   @observable rules_channel_id?: string;
   @observable region?: string;
   @observable splash?: string;
   @observable system_channel_id?: string;
-  @observable system_channel_flags?: number;
+  @observable system_channel_flags?: GuildSystemChannelFlags;
   @observable unavailable: boolean = false;
-  @observable verification_level?: number;
+  @observable verification_level?: GuildVerificationLevel;
   @observable welcome_screen?: GuildWelcomeScreen;
   @observable widget_channel_id?: string;
   @observable widget_enabled: boolean = true;
-  @observable nsfw_level?: number;
+  @observable nsfw_level?: GuildNSFWLevel;
   @observable nsfw: boolean = false;
   @observable parent?: string;
   @observable permissions?: number;
@@ -236,7 +244,7 @@ export class Guild {
       this.description = data.description;
       this.discovery_splash = data.discovery_splash;
       this.explicit_content_filter = data.explicit_content_filter;
-      this.features = data.features;
+      this.features = data.features as GuildFeature[];
       this.primary_category_id = data.primary_category_id;
       this.icon = data.icon;
       this.max_members = data.max_members;
@@ -377,8 +385,11 @@ export class Guild {
   @action
   update(data: Partial<IGuildCustom>) {
     const set = (key: keyof IGuildCustom) => {
-      // @ts-expect-error
-      if (typeof data[key] !== "undefined" && !isEqual(this[key], data[key])) {
+      if (
+        typeof data[key] !== "undefined" &&
+        // @ts-expect-error
+        !isEqual(this[key], data[key])
+      ) {
         // @ts-expect-error
         this[key] = data[key];
       }

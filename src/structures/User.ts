@@ -1,8 +1,9 @@
-import { PublicUser } from "@puyodead1/fosscord-api";
+import { PublicUser } from "@puyodead1/spacebar-api";
 import { DiscordSnowflake } from "@sapphire/snowflake";
 import isEqual from "lodash.isequal";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
 import { Client } from "../Client";
+import { UserFlags, UserPremiumType } from "../interfaces/user";
 import Collection from "../util/Collection";
 import { Nullable, toNullable } from "../util/utils";
 
@@ -12,13 +13,13 @@ export class User {
   @observable premium_since: string;
   @observable username: string;
   @observable discriminator: string;
-  @observable public_flags: number;
+  @observable public_flags: UserFlags;
   @observable avatar: Nullable<string>;
   @observable accent_color: Nullable<number>;
   @observable banner: Nullable<string>;
   @observable bio: string;
   @observable bot: boolean;
-  @observable premium_type: number;
+  @observable premium_type: UserPremiumType;
   @observable theme_colors: Nullable<number[]>;
   @observable pronouns: Nullable<string>;
 
@@ -90,7 +91,7 @@ export default class UserCollection extends Collection<string, User> {
       "00000000000000000000000000",
       new User(client, {
         id: "00000000000000000000000000",
-        username: "FosscordGhost",
+        username: "Spacebar Ghost",
         discriminator: "0000",
         bio: "",
         bot: false,

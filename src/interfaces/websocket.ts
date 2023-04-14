@@ -13,10 +13,10 @@ import {
   User,
   UserGuildSettings,
   UserSettings,
-} from "@puyodead1/fosscord-api";
+} from "@puyodead1/spacebar-api";
 import { Nullable } from "../util/utils";
 
-// modified from discord.js, strips stuff that fosscord doesn't implement: stages, threads, stickers, voice, presence (no types)
+// modified from discord.js, strips stuff that spacebar doesn't implement: stages, threads, stickers, voice, presence (no types)
 
 export type PublicMemberKeys =
   | "id"

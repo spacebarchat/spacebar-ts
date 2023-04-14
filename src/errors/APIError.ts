@@ -1,4 +1,4 @@
-import { APIErrorResponse } from "@puyodead1/fosscord-api";
+import { APIErrorResponse } from "@puyodead1/spacebar-api";
 import { convertFieldErrors, IAPIError } from "../util/utils";
 
 export interface FieldError {

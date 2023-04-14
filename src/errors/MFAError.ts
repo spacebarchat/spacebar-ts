@@ -1,4 +1,4 @@
-import { MFAResponse, WebAuthnResponse } from "@puyodead1/fosscord-api";
+import { MFAResponse, WebAuthnResponse } from "@puyodead1/spacebar-api";
 
 export class MFAError extends Error {
   ticket: string;

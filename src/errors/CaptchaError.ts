@@ -1,4 +1,4 @@
-import { CaptchaRequiredResponse } from "@puyodead1/fosscord-api";
+import { CaptchaRequiredResponse } from "@puyodead1/spacebar-api";
 
 export class CaptchaError extends Error {
   captcha_key: string;

@@ -2,7 +2,8 @@ import {
   Member as IMember,
   Role,
   UserGuildSettings,
-} from "@puyodead1/fosscord-api";
+} from "@puyodead1/spacebar-api";
+import isEqual from "lodash.isequal";
 import {
   action,
   computed,
@@ -89,7 +90,6 @@ export class Member {
   @action
   update(data: Partial<IMemberCustom>) {
     const set = (key: keyof IMemberCustom) => {
-      // @ts-expect-error
       if (typeof data[key] !== "undefined" && !isEqual(this[key], data[key])) {
         // @ts-expect-error
         this[key] = data[key];

@@ -1,14 +1,14 @@
 import {
-  Channel as IChannel,
   ChannelPermissionOverwrite,
   ChannelType,
+  Channel as IChannel,
   Invite,
   Message,
   ReadState,
   Recipient,
   VoiceState,
   Webhook,
-} from "@puyodead1/fosscord-api";
+} from "@puyodead1/spacebar-api";
 import isEqual from "lodash.isequal";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
 import { Client } from "../Client";
