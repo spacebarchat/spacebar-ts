@@ -26,6 +26,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
-    - run: pnpm i --only=dev
+    - run: pnpm i
     - run: pnpm eslint .
     - run: pnpm prettier --check .
