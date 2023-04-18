@@ -1,4 +1,4 @@
-import { User } from "spacebar-types";
+import { User } from "@spacebarchat/spacebar-types";
 import EventEmitter from "eventemitter3";
 import WebSocket from "isomorphic-ws";
 import { runInAction } from "mobx";

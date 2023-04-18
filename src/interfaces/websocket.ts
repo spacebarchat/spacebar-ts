@@ -13,7 +13,7 @@ import {
 	User,
 	UserGuildSettings,
 	UserSettings,
-} from "spacebar-types";
+} from "@spacebarchat/spacebar-types";
 import { Nullable } from "../util/utils";
 
 // modified from discord.js, strips stuff that spacebar doesn't implement: stages, threads, stickers, voice, presence (no types)

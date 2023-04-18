@@ -1,4 +1,8 @@
-import { Member as IMember, Role, UserGuildSettings } from "spacebar-types";
+import {
+	Member as IMember,
+	Role,
+	UserGuildSettings,
+} from "@spacebarchat/spacebar-types";
 import isEqual from "lodash.isequal";
 import {
 	action,

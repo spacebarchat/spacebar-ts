@@ -1,4 +1,4 @@
-import { APIErrorResponse } from "spacebar-types";
+import { APIErrorResponse } from "@spacebarchat/spacebar-types";
 import { convertFieldErrors, IAPIError } from "../util/utils";
 
 export interface FieldError {

@@ -8,7 +8,7 @@ import {
 	Recipient,
 	VoiceState,
 	Webhook,
-} from "spacebar-types";
+} from "@spacebarchat/spacebar-types";
 import isEqual from "lodash.isequal";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
 import { Client } from "../Client";
@@ -90,7 +90,7 @@ export class Channel {
 	}
 
 	async fetchMessage(id: string) {
-		// FIXME: fix in server
+		// TODO: fix the api types
 		const message = await this.client.api.get(
 			`/channels/${this.id}/messages/${id}` as any,
 		);
@@ -99,7 +99,7 @@ export class Channel {
 	}
 
 	async fetchMessages() {
-		// FIXME: fix in server
+		// TODO: fix the api types
 		const messages = await this.client.api.get(
 			`/channels/${this.id}/messages` as any,
 		);
@@ -145,10 +145,12 @@ export default class ChannelCollection extends Collection<string, Channel> {
 		return super.get(id);
 	}
 
-	// FIXME: ???
 	async fetch(id: string, fetch = false) {
 		if (this.has(id) && !fetch) return this.get(id);
-		const channel = await this.client.api.get(`/channels/${id}` as any);
+		const channel = (await this.client.api.get(
+			// @ts-expect-error: allow
+			`/channels/${id}`,
+		)) as IChannelCustom;
 
 		return this.create(channel);
 	}

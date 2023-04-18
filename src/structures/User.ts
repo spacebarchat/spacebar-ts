@@ -1,5 +1,5 @@
-import { PublicUser } from "spacebar-types";
 import { DiscordSnowflake } from "@sapphire/snowflake";
+import { APIPublicUser, PublicUser } from "@spacebarchat/spacebar-types";
 import isEqual from "lodash.isequal";
 import { action, makeAutoObservable, observable, runInAction } from "mobx";
 import { Client } from "../Client";
@@ -48,7 +48,7 @@ export class User {
 		);
 	}
 
-	async getProfile() {
+	async getProfile(): Promise<APIPublicUser> {
 		return await this.client.api.get(`/users/${this.id}/`);
 	}
 

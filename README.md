@@ -40,7 +40,7 @@ client.once('ready', () => {
 
 ## Spacebar API Types
 
-All `spacebar-types` types are re-exported under `API`.
+All `@spacebarchat/spacebar-types` types are re-exported under `API`.
 
 ```typescript
 import { API } from "spacebar-ts";

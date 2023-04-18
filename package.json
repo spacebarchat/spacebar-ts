@@ -24,23 +24,23 @@
 	"devDependencies": {
 		"@types/lodash.defaultsdeep": "^4.6.7",
 		"@types/lodash.isequal": "^4.5.6",
-		"@types/node": "^18.15.10",
+		"@types/node": "^18.15.11",
 		"@types/ws": "^8.5.4",
 		"@typescript-eslint/eslint-plugin": "^5.58.0",
 		"@typescript-eslint/parser": "^5.58.0",
 		"eslint": "^8.38.0",
 		"rimraf": "^5.0.0",
-		"typescript": "^5.0.2"
+		"typescript": "^5.0.4"
 	},
 	"dependencies": {
-		"@sapphire/snowflake": "^3.4.0",
+		"@sapphire/snowflake": "^3.4.2",
+		"@spacebarchat/spacebar-types": "^0.1.2",
 		"eventemitter3": "^5.0.0",
 		"exponential-backoff": "^3.1.1",
 		"isomorphic-ws": "^5.0.0",
 		"lodash.defaultsdeep": "^4.6.1",
 		"lodash.isequal": "^4.5.0",
 		"mobx": "^6.9.0",
-		"spacebar-types": "github:spacebarchat/spacebar-types",
 		"ws": "^8.13.0"
 	}
 }

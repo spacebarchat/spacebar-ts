@@ -1,3 +1,4 @@
+import { DiscordSnowflake } from "@sapphire/snowflake";
 import {
 	Ban,
 	Channel,
@@ -10,8 +11,7 @@ import {
 	Sticker,
 	VoiceState,
 	Webhook,
-} from "spacebar-types";
-import { DiscordSnowflake } from "@sapphire/snowflake";
+} from "@spacebarchat/spacebar-types";
 import isEqual from "lodash.isequal";
 import {
 	action,

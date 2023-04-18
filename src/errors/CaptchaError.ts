@@ -1,4 +1,4 @@
-import { CaptchaRequiredResponse } from "spacebar-types";
+import { CaptchaRequiredResponse } from "@spacebarchat/spacebar-types";
 
 export class CaptchaError extends Error {
 	captcha_key: string;

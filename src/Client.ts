@@ -4,7 +4,7 @@ import {
 	LoginSchema,
 	RegisterSchema,
 	User,
-} from "spacebar-types";
+} from "@spacebarchat/spacebar-types";
 import EventEmitter from "eventemitter3";
 import defaultsDeep from "lodash.defaultsdeep";
 import { action, makeObservable, observable } from "mobx";
@@ -73,7 +73,7 @@ export class Client extends EventEmitter {
 		this.api = new API({
 			baseURL: this.options.rest.url,
 			authentication: {
-				token,
+				bearer: token,
 			},
 		});
 	}
@@ -113,18 +113,17 @@ export class Client extends EventEmitter {
 				return this.token;
 			})
 			.catch((e) => {
+				if (typeof e === "object" && e instanceof MFAError) throw e;
+
 				const content = getAxiosErrorContent<
 					APIErrorOrCaptchaResponse | Error
 				>(e);
 
-				if (content instanceof Error) {
-					throw content;
-				}
+				if (content instanceof Error) throw content;
 
-				if ("captcha_sitekey" in content) {
+				if ("captcha_sitekey" in content)
 					// Captcha
 					throw new CaptchaError(content);
-				}
 
 				throw new APIError(content);
 			});
@@ -135,27 +134,6 @@ export class Client extends EventEmitter {
 		await this.getConfig();
 		this.token = token;
 		this.conenect();
-	}
-
-	async logout(skipRequest = false) {
-		this.user = null;
-		this.emit("logout");
-		if (!skipRequest) {
-			await this.api.post("/auth/logout/");
-		}
-
-		this.reset();
-	}
-
-	reset() {
-		this.user = null;
-		this.ws.disconnect();
-		delete this.token;
-
-		this.users = new UserCollection(this);
-		this.guilds = new GuildCollection(this);
-		this.channels = new ChannelCollection(this);
-		this.members = new MemberCollection(this);
 	}
 
 	@action
@@ -185,5 +163,26 @@ export class Client extends EventEmitter {
 					reject(new APIError(content));
 				});
 		});
+	}
+
+	async logout(skipRequest = false) {
+		this.user = null;
+		this.emit("logout");
+		if (!skipRequest) {
+			await this.api.post("/auth/logout/");
+		}
+
+		this.reset();
+	}
+
+	reset() {
+		this.user = null;
+		this.ws.disconnect();
+		delete this.token;
+
+		this.users = new UserCollection(this);
+		this.guilds = new GuildCollection(this);
+		this.channels = new ChannelCollection(this);
+		this.members = new MemberCollection(this);
 	}
 }

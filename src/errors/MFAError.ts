@@ -1,4 +1,4 @@
-import { MFAResponse, WebAuthnResponse } from "spacebar-types";
+import { MFAResponse, WebAuthnResponse } from "@spacebarchat/spacebar-types";
 
 export class MFAError extends Error {
 	ticket: string;
