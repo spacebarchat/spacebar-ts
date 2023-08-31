@@ -118,7 +118,7 @@ export class WebSocketClient extends EventEmitter {
 				this.emit(payload.t, payload.d);
 				break;
 
-			case GatewayOpcodes.Hello:
+			case GatewayOpcodes.Hello: {
 				this.heartbeatInterval = payload.d.heartbeat_interval;
 				this.client.emit(
 					"debug",
@@ -138,6 +138,7 @@ export class WebSocketClient extends EventEmitter {
 					this.startHeartbeater();
 				}, initialTimeout);
 				break;
+			}
 
 			case GatewayOpcodes.Heartbeat:
 				this.client.emit("debug", "[WS] Recieved Heartbeat Request");
