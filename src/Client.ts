@@ -2,8 +2,8 @@ import {
 	API,
 	APIErrorOrCaptchaResponse,
 	LoginSchema,
+	PublicUser,
 	RegisterSchema,
-	User,
 } from "@spacebarchat/spacebar-types";
 import EventEmitter from "eventemitter3";
 import defaultsDeep from "lodash.defaultsdeep";
@@ -48,7 +48,21 @@ export class Client extends EventEmitter {
 	domainConfig?: DomainConfig;
 	ws: WebSocketClient;
 
-	@observable user: User | null = null;
+	@observable user:
+		| (PublicUser & {
+				mobile: boolean;
+				desktop: boolean;
+				email: string | undefined;
+				flags: string;
+				mfa_enabled: boolean;
+				nsfw_allowed: boolean;
+				phone: string | undefined;
+				premium: boolean;
+				premium_type: number;
+				verified: boolean;
+				bot: boolean;
+		  })
+		| null = null;
 	@observable users: UserCollection;
 	@observable guilds: GuildCollection;
 	@observable channels: ChannelCollection;
