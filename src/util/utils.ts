@@ -39,6 +39,7 @@ export function convertFieldErrors(errors: IAPIError) {
 	return errorArray;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getAxiosErrorContent<T>(error: any): T {
 	if (error.response) {
 		// The request was made and the server responded with a status code

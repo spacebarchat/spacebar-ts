@@ -1,6 +1,6 @@
 {
 	"name": "spacebar-ts",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Typescript library for the Spacebar API",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
@@ -34,7 +34,7 @@
 	},
 	"dependencies": {
 		"@sapphire/snowflake": "^3.4.2",
-		"@spacebarchat/spacebar-types": "^0.1.2",
+		"@spacebarchat/spacebar-types": "^0.1.3",
 		"eventemitter3": "^5.0.0",
 		"exponential-backoff": "^3.1.1",
 		"isomorphic-ws": "^5.0.0",
