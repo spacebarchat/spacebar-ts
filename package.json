@@ -1,6 +1,6 @@
 {
-	"name": "spacebar-ts",
-	"version": "0.0.3",
+	"name": "@spacebarchat/spacebar-ts",
+	"version": "0.0.4",
 	"description": "Typescript library for the Spacebar API",
 	"main": "dist/index.js",
 	"typings": "dist/index.d.ts",
