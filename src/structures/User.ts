@@ -49,7 +49,9 @@ export class User {
 	}
 
 	async getProfile(): Promise<APIPublicUser> {
-		return await this.client.api.get(`/users/${this.id}/`);
+		return (await this.client.api.get(
+			`/users/${this.id}/`,
+		)) as APIPublicUser;
 	}
 
 	// TODO: file type option
