@@ -1,4 +1,3 @@
-import { User } from "@spacebarchat/spacebar-types";
 import EventEmitter from "eventemitter3";
 import WebSocket from "isomorphic-ws";
 import { runInAction } from "mobx";
@@ -231,7 +230,7 @@ export class WebSocketClient extends EventEmitter {
 			}
 		});
 
-		this.client.user = user as User;
+		this.client.user = user;
 		this.ready = true;
 		this.client.emit("ready", payload);
 	}
